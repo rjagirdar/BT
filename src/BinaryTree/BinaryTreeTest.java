@@ -1,7 +1,11 @@
 package BinaryTree;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -13,12 +17,12 @@ public class BinaryTreeTest {
 
 	public static void main(String[] args) {
 		
-		BinaryTree tree = getTree();
+		/*BinaryTree tree = getTree();
 		System.out.println("LCA of 6 and 2 is "+tree.LCA(6, 2).data);
 		System.out.println("Distance between 1 and 2 is "+tree.getDistance(1, 2));
 		tree.printNodeAtKDistanceFromLeaf(2);
 		System.out.println("================================================");
-		/*tree.printNodesWithoutSibling();
+		tree.printNodesWithoutSibling();
 		System.out.println("================================================");
 		System.out.println("Linked List is");
 		Node head = tree.getLinkedList();
@@ -26,14 +30,17 @@ public class BinaryTreeTest {
 			System.out.print(head.data+" ");
 			head = head.right;
 		}
-		System.out.println();*/
+		System.out.println();
 		System.out.println("================================================");
 		System.out.println("Linked List of Leaf Nodes are");
 		Node head = tree.extractLeaves();
 		while(head!=null){
 			System.out.print(head.data+" ");
 			head = head.left;
-		}
+		}*/
+		
+		BinaryTree tree = getTTree();
+		System.out.println(tree.secondMin());
 	}
 	public static BinaryTree getTree(){
 		Node root= new Node(1);
@@ -47,6 +54,23 @@ public class BinaryTreeTest {
 		root.right.right.right.right=new Node(9);
 		BinaryTree tree=new BinaryTree(root);
 		return tree;
+	}
+	
+	public static BinaryTree getTTree(){
+		Node root = new Node(2);
+		root.left = new Node(2);
+		root.right = new Node(3);
+		
+		root.left.left = new Node(4);
+		root.left.right = new Node(2);
+		
+		root.right.left = new Node(5);
+		root.right.right = new Node(3);
+		
+		
+		return new BinaryTree(root);
+		
+		
 	}
 }
 
@@ -62,6 +86,15 @@ class Node {
 		right=null;
 	}
 	
+	public static Comparator<Node> comp = new Comparator<Node>() {
+
+		@Override
+		public int compare(Node o1, Node o2) {
+			
+			return o1.data-o2.data;
+		}
+	};
+	
 	@Override
 	public String toString(){
 		return String.format("" + this.data);
@@ -74,6 +107,26 @@ class BinaryTree{
 	HashSet<Node> visitedNodes;
 	Node head;
 	Node prev;
+	List<Node> leafNodesList = new ArrayList<Node>();
+	
+	public int secondMin(){
+		getLeaves(this.root);
+		Collections.sort(leafNodesList, Node.comp);
+		return leafNodesList.get(1).data;
+		
+		
+	}
+	
+	private void getLeaves(Node root){
+		if(root == null)
+            return;
+            
+     if(root.left == null && root.right==null){
+         leafNodesList.add(root);
+     }
+     getLeaves(root.left);
+     getLeaves(root.right);
+	}
 	
 	public BinaryTree(){
 		root = null;

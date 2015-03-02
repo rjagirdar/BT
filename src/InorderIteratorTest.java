@@ -24,7 +24,7 @@ public class InorderIteratorTest {
 		int in[] = {4,8,10,12,14,20,22};
 		int pre[]= {20,8,4,12,10,14,22};
 		int level[] = {20,8,22,4,12,10,14};
-		BinarySearchTree tree = new BinarySearchTree(in, level, IteratorType.INORDER, IteratorType.LEVELORDER);
+		BinarySearchTree tree = new BinarySearchTree(in, pre, IteratorType.INORDER, IteratorType.PREORDER);
 		//BinarySearchTree tree=getTree();
 		
 		System.out.println("Height of the Tree is " + tree.height());
@@ -391,6 +391,7 @@ class BinarySearchTree {
 		if(root== null)
 			return null;
 		Deque<Node> queue=new LinkedList<Node>();
+		
 		Deque<Node> childQueue=new LinkedList<Node>();
 		queue.addFirst(root);
 		int level=0;
