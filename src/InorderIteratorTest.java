@@ -489,6 +489,8 @@ class BinarySearchTree {
 			if(search(in, start, end, level[i]) != -1)
 				list.add(level[i]);
 		}
+		Integer[] arr = new Integer[list.size()];
+		arr = (Integer[])list.toArray(arr);
 		return toIntArray(list);
 	}
 	
